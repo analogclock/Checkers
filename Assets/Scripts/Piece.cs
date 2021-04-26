@@ -10,8 +10,8 @@ public class Piece : MonoBehaviour
 
     //Position for this piece on the Board
     //The correct position will be set later
-    private int xBoard = 1;
-    private int yBoard = 1;
+    private int xBoard = -1;
+    private int yBoard = -1;
 
     //Variable for keeping track of the player it belongs to player A or player B
     private string player;
@@ -42,8 +42,8 @@ public class Piece : MonoBehaviour
         float y = yBoard;
 
         //Adjust by variable offset. not doing anything?!
-        x *= -5f;
-        y *= -5;
+        x *= 1.0f;
+        y *= 1.27f;
 
         //Add constants (pos 0,0)
         x += -4.5f;
