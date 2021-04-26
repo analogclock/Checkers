@@ -13,8 +13,8 @@ public class Piece : MonoBehaviour
     private int xBoard = -1;
     private int yBoard = -1;
 
-    //Variable for keeping track of the player it belongs to player A or player B
-    private string player;
+    private string player; // Variable for keeping track of the player it belongs to player A or player B
+    private bool validMove; // if the player's selected square is one of the valid squares
 
     //References to all the possible Sprites that this Chesspiece could be
     public Sprite A_normal, A_plus;
@@ -53,6 +53,16 @@ public class Piece : MonoBehaviour
         this.transform.position = new Vector3(x, y, 1.0f);
     }
 
+    private void OnMouseUp(){
+        string debugg = this.name + " clicked";
+        Debug.Log(debugg);
+
+        MoveIt();
+    }
+
+    private void MoveIt(){ // determine moves for player
+
+    }
     // Getter and Setter methods from Unity Chess Tutorial
     public int GetXBoard()
     {

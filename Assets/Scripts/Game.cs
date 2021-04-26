@@ -22,12 +22,11 @@ public class Game : MonoBehaviour
     // create pieces and set their positions. Idea and structure from Unity Chess Tutorial
     void Start()
     {
-        // Right now is "four corner" pieces that won't necessarily be in the real game
         playerA = new GameObject[]{
-        Create("A_normal", 0,0), Create("A_normal", 2,0), 
-        Create("A_normal", 4,0), Create("A_normal", 6,0),
-        Create("A_normal", 1,1), Create("A_normal", 3,1), 
-        Create("A_normal", 5,1), Create("A_normal", 7,1)};
+        Create("A_normal", 0,0), Create("A_normal", 1,1), 
+        Create("A_normal", 2,0), Create("A_normal", 3,1), 
+        Create("A_normal", 4,0), Create("A_normal", 5,1),
+        Create("A_normal", 6,0), Create("A_normal", 7,1)};
         playerB = new GameObject[]{
         Create("B_normal", 0,6), Create("B_normal", 1,7),
         Create("B_normal", 2,6), Create("B_normal", 3,7),
