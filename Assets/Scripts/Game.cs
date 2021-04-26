@@ -19,11 +19,20 @@ public class Game : MonoBehaviour
 
     private bool gameOver = false; // Game Ending
 
-    // create pieces and set their positions
+    // create pieces and set their positions. Idea and structure from Unity Chess Tutorial
     void Start()
     {
-        playerA = new GameObject[]{Create("A_normal", 0,0)};
-        playerB = new GameObject[]{Create("B_normal", 0,7)};
+        // Right now is "four corner" pieces that won't necessarily be in the real game
+        playerA = new GameObject[]{
+        Create("A_normal", 0,0), Create("A_normal", 2,0), 
+        Create("A_normal", 4,0), Create("A_normal", 6,0),
+        Create("A_normal", 1,1), Create("A_normal", 3,1), 
+        Create("A_normal", 5,1), Create("A_normal", 7,1)};
+        playerB = new GameObject[]{
+        Create("B_normal", 0,6), Create("B_normal", 1,7),
+        Create("B_normal", 2,6), Create("B_normal", 3,7),
+        Create("B_normal", 4,6), Create("B_normal", 5,7),
+        Create("B_normal", 6,6), Create("B_normal", 7,7)};
 
         for (int i = 0; i<playerA.Length; i++){
             setPosition(playerA[i]);
@@ -31,7 +40,7 @@ public class Game : MonoBehaviour
         }
     }
 
-    public GameObject Create(string name, int x, int y)
+    public GameObject Create(string name, int x, int y) // A lot from Unity Chess tutorial
     {
         GameObject obj = Instantiate(piece, new Vector3(0, 0, 1), Quaternion.identity);
         Piece p = obj.GetComponent<Piece>();

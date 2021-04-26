@@ -42,7 +42,7 @@ public class Piece : MonoBehaviour
         float y = yBoard;
 
         //Adjust by variable offset. not doing anything?!
-        x *= 1.0f;
+        x *= 1.27f;
         y *= 1.27f;
 
         //Add constants (pos 0,0)
