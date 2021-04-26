@@ -10,8 +10,8 @@ public class Piece : MonoBehaviour
 
     //Position for this piece on the Board
     //The correct position will be set later
-    private int xBoard = -1;
-    private int yBoard = -1;
+    private int xBoard = 1;
+    private int yBoard = 1;
 
     //Variable for keeping track of the player it belongs to player A or player B
     private string player;
@@ -41,13 +41,13 @@ public class Piece : MonoBehaviour
         float x = xBoard;
         float y = yBoard;
 
-        //Adjust by variable offset
-        x *= 0.66f;
-        y *= 0.66f;
+        //Adjust by variable offset. not doing anything?!
+        x *= -5f;
+        y *= -5;
 
         //Add constants (pos 0,0)
-        x += -2.3f;
-        y += -2.3f;
+        x += -4.5f;
+        y += -4.4f;
 
         //Set actual unity values
         this.transform.position = new Vector3(x, y, 1.0f);
