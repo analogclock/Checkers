@@ -12,8 +12,8 @@ public class Game : MonoBehaviour
     // Matrices needed, positions of each of the GameObjects
     // Also separate arrays for the players in order to easily keep track of them all
     private GameObject[,] positions = new GameObject[8, 8]; // internal game positions (not unity coordinates)
-    private GameObject[] playerA = new GameObject[1]; // dummy for now
-    private GameObject[] playerB = new GameObject[1];
+    private GameObject[] playerA = new GameObject[8]; // dummy for now
+    private GameObject[] playerB = new GameObject[8];
 
     private string currentPlayer = "A"; // current turn
 
@@ -34,8 +34,8 @@ public class Game : MonoBehaviour
         Create("B_normal", 6,6), Create("B_normal", 7,7)};
 
         for (int i = 0; i<playerA.Length; i++){
-            setPosition(playerA[i]);
-            setPosition(playerB[i]);
+            SetPosition(playerA[i]);
+            SetPosition(playerB[i]);
         }
     }
 
@@ -50,11 +50,21 @@ public class Game : MonoBehaviour
         return obj;
     }
 
-    public void setPosition(GameObject obj)
+    public void SetPosition(GameObject obj) // unity chess
     {
         Piece p = obj.GetComponent<Piece>();
 
         //Overwrites either empty space or whatever was there
         positions[p.GetXBoard(), p.GetYBoard()] = obj;
+    }
+
+    public void SetPositionEmpty(int x, int y) // unity chess
+    {
+        positions[x, y] = null;
+    }
+
+    public GameObject GetPosition(int x, int y)
+    {
+        return positions[x, y];
     }
 }

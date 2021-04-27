@@ -7,6 +7,11 @@ public class Piece : MonoBehaviour
     //References to objects in our Unity Scene
     public GameObject controller;
     public GameObject moveDot;
+    GameObject reference = null;
+
+    //Location on the board
+    int matrixX;
+    int matrixY;
 
     //Position for this piece on the Board
     //The correct position will be set later
@@ -57,25 +62,55 @@ public class Piece : MonoBehaviour
         string debugg = this.name + " clicked";
         Debug.Log(debugg);
 
-       // MoveIt();
+        GenerateMoveDots();
     }
 
-  /*  private void MoveIt(){ // generate all legal moves for player. for now just for normal pieces and for A
+    public void GenerateMoveDots(){ // encodes rules of movemtn sort of
         switch(this.name){
-                case "A_normal": A_normal_moves(); break;
-                //case "B_normal": break;
-                //case "A_plus": break;
-                //case "B_plus": break;
-            }
-
+            case "A_normal": peacefulMovePlate(1,1); peacefulMovePlate(-1,1); break;
+        }
     }
-    
 
-    public void A_normal_moves(){
-        //this.SetXBoard(x);
-        //this.SetYBoard(y);
+    public void DestroyMoveDots(){
+        //Destroy old dots
+        GameObject[] moveDots = GameObject.FindGameObjectsWithTag("MoveDot");
+        for (int i = 0; i < moveDots.Length; i++)
+        {
+            Destroy(moveDots[i]); //Be careful with this function "Destroy" it is asynchronous
+        }
     }
-    */
+
+    private void peacefulMovePlate(int xIncrement, int yIncrement){ // unity chess
+        Game sc = controller.GetComponent<Game>();
+
+        int x = xBoard + xIncrement;
+        int y = yBoard + yIncrement;
+
+        MoveDotsSpawn(x,y);
+    }
+
+    private void MoveDotsSpawn(int matrixX, int matrixY){ // Unity Chess
+    ///*
+        //Get the board value in order to convert to xy coords
+        float x = matrixX;
+        float y = matrixY;
+
+        //Adjust by variable offset
+        x *= 1.27f;
+        y *= 1.27f;
+
+        //Add constants (pos 0,0)
+        x += -4.5f;
+        y += -4.4f;
+
+        //Set actual unity values
+        GameObject sq = Instantiate(moveDot, new Vector3(x, y, -1.0f), Quaternion.identity);
+
+        MoveDot sqScript = sq.GetComponent<MoveDot>();
+        sqScript.SetReference(gameObject);
+        sqScript.SetCoords(matrixX, matrixY);
+       // */
+    }
 
     // Getter and Setter methods from Unity Chess Tutorial
     public int GetXBoard()
