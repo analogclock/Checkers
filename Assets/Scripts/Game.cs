@@ -41,7 +41,7 @@ public class Game : MonoBehaviour
 
     public GameObject Create(string name, int x, int y) // A lot from Unity Chess tutorial
     {
-        GameObject obj = Instantiate(piece, new Vector3(0, 0, 1), Quaternion.identity);
+        GameObject obj = Instantiate(piece, new Vector3(0, 0, -1), Quaternion.identity);
         Piece p = obj.GetComponent<Piece>();
         p.name = name; // name is a built in variable in unity
         p.SetXBoard(x);

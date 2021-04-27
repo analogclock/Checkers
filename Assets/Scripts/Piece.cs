@@ -50,17 +50,17 @@ public class Piece : MonoBehaviour
         y += -4.4f;
 
         //Set actual unity values
-        this.transform.position = new Vector3(x, y, 1.0f);
+        this.transform.position = new Vector3(x, y, -1.0f);
     }
 
     private void OnMouseUp(){
         string debugg = this.name + " clicked";
         Debug.Log(debugg);
 
-        MoveIt();
+       // MoveIt();
     }
 
-    private void MoveIt(){ // generate all legal moves for player. for now just for normal pieces and for A
+  /*  private void MoveIt(){ // generate all legal moves for player. for now just for normal pieces and for A
         switch(this.name){
                 case "A_normal": A_normal_moves(); break;
                 //case "B_normal": break;
@@ -69,11 +69,13 @@ public class Piece : MonoBehaviour
             }
 
     }
+    
 
     public void A_normal_moves(){
         //this.SetXBoard(x);
         //this.SetYBoard(y);
     }
+    */
 
     // Getter and Setter methods from Unity Chess Tutorial
     public int GetXBoard()
@@ -95,4 +97,5 @@ public class Piece : MonoBehaviour
     {
         yBoard = y;
     }
+
 }
