@@ -65,10 +65,10 @@ public class Piece : MonoBehaviour
         GenerateMoveDots();
     }
 
-    public void GenerateMoveDots(){ // encodes rules of movemtn sort of
+    public void GenerateMoveDots(){ // encodes rules of movemnt sort of
         switch(this.name){
-            case "A_normal": peacefulMovePlate(1,1); peacefulMovePlate(-1,1); break;
-            case "B_normal": peacefulMovePlate(1,-1); peacefulMovePlate(-1,-1); break;
+            case "A_normal": normalMoves("A"); break;
+            case "B_normal": normalMoves("B"); break;
         }
     }
 
@@ -81,7 +81,32 @@ public class Piece : MonoBehaviour
         }
     }
 
-    private void peacefulMovePlate(int xIncrement, int yIncrement){ // unity chess
+    private void normalMoves(string player){
+        bool attacking = false; // maybe make a method to determine if is attacking
+        if (player == "A"){
+            if (!attacking){
+                normalMovePlate(1,1);
+                normalMovePlate(-1,1);
+            }
+            else if (attacking){
+                normalMovePlate(2,2);
+                normalMovePlate(-2,2);
+            }
+        }
+        else if (player == "B"){
+            if (!attacking){
+                normalMovePlate(1,-1); 
+                normalMovePlate(-1,-1);
+            }
+            else if (attacking){
+                normalMovePlate(2,-2);
+                normalMovePlate(-2,-2);
+            }
+        }
+    
+    }
+
+    private void normalMovePlate(int xIncrement, int yIncrement){ // unity chess
         Game sc = controller.GetComponent<Game>();
 
         int x = xBoard + xIncrement;
@@ -90,6 +115,10 @@ public class Piece : MonoBehaviour
         if (sc.GetPosition(x,y)==null && sc.isOnBoard(x,y)){
             MoveDotsSpawn(x,y);
         }
+    }
+
+    private void plusMovePlate(string player){
+
     }
 
     private void MoveDotsSpawn(int matrixX, int matrixY){ // Unity Chess
