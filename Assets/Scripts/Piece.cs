@@ -19,7 +19,6 @@ public class Piece : MonoBehaviour
     private int yBoard = -1; 
 
     private string player; // Variable for keeping track of the player it belongs to player A or player B
-    private bool validMove; // if the player's selected square is one of the valid squares
 
     //References to all the possible Sprites that this Chesspiece could be
     public Sprite A_normal, A_plus;
@@ -62,12 +61,14 @@ public class Piece : MonoBehaviour
         string debugg = this.name + " clicked";
         Debug.Log(debugg);
 
+        DestroyMoveDots();
         GenerateMoveDots();
     }
 
     public void GenerateMoveDots(){ // encodes rules of movemtn sort of
         switch(this.name){
             case "A_normal": peacefulMovePlate(1,1); peacefulMovePlate(-1,1); break;
+            case "B_normal": peacefulMovePlate(1,-1); peacefulMovePlate(-1,-1); break;
         }
     }
 
@@ -86,7 +87,9 @@ public class Piece : MonoBehaviour
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
 
-        MoveDotsSpawn(x,y);
+        if (sc.GetPosition(x,y)==null && sc.isOnBoard(x,y)){
+            MoveDotsSpawn(x,y);
+        }
     }
 
     private void MoveDotsSpawn(int matrixX, int matrixY){ // Unity Chess

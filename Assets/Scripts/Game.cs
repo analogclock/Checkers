@@ -67,4 +67,10 @@ public class Game : MonoBehaviour
     {
         return positions[x, y];
     }
+
+    public bool isOnBoard(int x, int y){
+        bool xCoord = x>=0 && x<=7;
+        bool yCoord = y>=0 && y<=7;
+        return xCoord && yCoord;
+    }
 }
