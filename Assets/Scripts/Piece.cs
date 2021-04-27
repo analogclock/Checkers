@@ -11,7 +11,7 @@ public class Piece : MonoBehaviour
     //Position for this piece on the Board
     //The correct position will be set later
     private int xBoard = -1;
-    private int yBoard = -1;
+    private int yBoard = -1; 
 
     private string player; // Variable for keeping track of the player it belongs to player A or player B
     private bool validMove; // if the player's selected square is one of the valid squares
@@ -60,9 +60,21 @@ public class Piece : MonoBehaviour
         MoveIt();
     }
 
-    private void MoveIt(){ // determine moves for player
+    private void MoveIt(){ // generate all legal moves for player. for now just for normal pieces and for A
+        switch(this.name){
+                case "A_normal": A_normal_moves(); break;
+                //case "B_normal": break;
+                //case "A_plus": break;
+                //case "B_plus": break;
+            }
 
     }
+
+    public void A_normal_moves(){
+        //this.SetXBoard(x);
+        //this.SetYBoard(y);
+    }
+
     // Getter and Setter methods from Unity Chess Tutorial
     public int GetXBoard()
     {
