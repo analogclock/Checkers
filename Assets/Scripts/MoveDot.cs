@@ -35,6 +35,9 @@ public class MoveDot : MonoBehaviour
         //Update the matrix
         controller.GetComponent<Game>().SetPosition(reference);
 
+        // switch player
+        controller.GetComponent<Game>().changeCurrentPlayer();
+
         // delete old dots
         reference.GetComponent<Piece>().DestroyMoveDots();
     }

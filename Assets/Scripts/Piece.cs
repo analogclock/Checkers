@@ -60,9 +60,10 @@ public class Piece : MonoBehaviour
     private void OnMouseUp(){
         string debugg = this.name + " clicked";
         Debug.Log(debugg);
-
-        DestroyMoveDots();
-        GenerateMoveDots();
+        if (controller.GetComponent<Game>().GetCurrentPlayer() == player){
+            DestroyMoveDots();
+            GenerateMoveDots();
+        }
     }
 
     public void GenerateMoveDots(){ // encodes rules of movemnt sort of
@@ -81,32 +82,71 @@ public class Piece : MonoBehaviour
         }
     }
 
-    private void normalMoves(string player){
-        bool attacking = false; // maybe make a method to determine if is attacking
-        if (player == "A"){
-            if (!attacking){
-                normalMovePlate(1,1);
-                normalMovePlate(-1,1);
-            }
-            else if (attacking){
-                normalMovePlate(2,2);
-                normalMovePlate(-2,2);
-            }
+    private bool isAttacking(int xIncrement, int yIncrement){
+        ///*
+        Game sc = controller.GetComponent<Game>();
+        int x = xBoard + xIncrement;
+        int y = yBoard + yIncrement;
+
+        //GameObject p = sc.GetPosition(x,y); // returns gameobject at that location?
+        string s = sc.getPieceAtXY(x,y);
+        Debug.Log(s);
+
+        if (s == null || s == this.name){ // no plus pieces. WATCH OUT 
+            Debug.Log("Is NOT Attacking");
+            return false;
         }
-        else if (player == "B"){
-            if (!attacking){
+        Debug.Log("Is Attacking");
+        return true;
+          // */
+    }
+ 
+
+
+    private void normalMoves(string player){
+        //bool attacking = isAttacking();
+        if (this.player == "A"){
+            //if (!attacking){
+                normalMovePlate(1,1);
+                if (isAttacking(1,1)){
+                    normalMovePlate(2,2);
+                }
+                normalMovePlate(-1,1);
+                if (isAttacking(-1,1)){
+                    normalMovePlate(-2,2);
+                }
+            //}
+            //else if (attacking){
+            //    normalMovePlate(2,2);
+            //   normalMovePlate(-2,2);
+            //}
+        }
+        else if (this.player == "B"){
+            //if (!attacking){
                 normalMovePlate(1,-1); 
                 normalMovePlate(-1,-1);
-            }
-            else if (attacking){
-                normalMovePlate(2,-2);
-                normalMovePlate(-2,-2);
-            }
+            //}
+            //else if (attacking){
+            //    normalMovePlate(2,-2);
+             //   normalMovePlate(-2,-2);
+           // }
         }
     
     }
 
+
     private void normalMovePlate(int xIncrement, int yIncrement){ // unity chess
+        Game sc = controller.GetComponent<Game>();
+
+        int x = xBoard + xIncrement;
+        int y = yBoard + yIncrement;
+
+        if (sc.GetPosition(x,y)==null && sc.isOnBoard(x,y)){
+            MoveDotsSpawn(x,y);
+        }
+    }
+
+    private void attackingMovePlate(int xIncrement, int yIncrement){ // unity chess
         Game sc = controller.GetComponent<Game>();
 
         int x = xBoard + xIncrement;
@@ -163,6 +203,10 @@ public class Piece : MonoBehaviour
     public void SetYBoard(int y)
     {
         yBoard = y;
+    }
+
+    public string GetPlayer(){ // for capturing
+        return this.player;
     }
 
 }
