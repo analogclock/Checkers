@@ -18,11 +18,16 @@ public class Piece : MonoBehaviour
     private int xBoard = -1;
     private int yBoard = -1; 
 
+    public bool attacking = false;
+
     private string player; // Variable for keeping track of the player it belongs to player A or player B
 
     //References to all the possible Sprites that this Chesspiece could be
     public Sprite A_normal, A_plus;
     public Sprite B_normal, B_plus;
+
+    private int attakX;
+    private int attakY;
 
     public void Activate(){
 
@@ -88,16 +93,23 @@ public class Piece : MonoBehaviour
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
 
-        //GameObject p = sc.GetPosition(x,y); // returns gameobject at that location?
-        string s = sc.getPieceAtXY(x,y);
-        Debug.Log(s);
+        if (sc.isOnBoard(x,y)){
+            //GameObject p = sc.GetPosition(x,y); // returns gameobject at that location?
+            string s = sc.getPieceAtXY(x,y);
+            Debug.Log(s);
 
-        if (s == null || s == this.name){ // no plus pieces. WATCH OUT 
-            Debug.Log("Is NOT Attacking");
-            return false;
+            if (s == null || s == this.name){ // no plus pieces. WATCH OUT 
+                Debug.Log("Is NOT Attacking");
+                return false;
+            }
+            Debug.Log("Is Attacking");
+            //Attack(x,y);
+            attacking = true;
+            return true;
         }
-        Debug.Log("Is Attacking");
-        return true;
+        attacking = false;
+        return false;
+
           // */
     }
  
@@ -107,61 +119,73 @@ public class Piece : MonoBehaviour
         //bool attacking = isAttacking();
         if (this.player == "A"){
             //if (!attacking){
-                normalMovePlate(1,1);
+                
                 if (isAttacking(1,1)){
-                    normalMovePlate(2,2);
+                    this.attakX = 1;
+                    this.attakY = 1;
+                    MovePlate(2,2, true);
                 }
-                normalMovePlate(-1,1);
+                else{
+                    MovePlate(1,1, false);
+                }
                 if (isAttacking(-1,1)){
-                    normalMovePlate(-2,2);
+                    this.attakX = -1;
+                    this.attakY = 1;
+                    MovePlate(-2,2, true);
                 }
-            //}
-            //else if (attacking){
-            //    normalMovePlate(2,2);
-            //   normalMovePlate(-2,2);
-            //}
+                else{
+                    MovePlate(-1,1, false);
+                }
         }
         else if (this.player == "B"){
-            //if (!attacking){
-                normalMovePlate(1,-1); 
-                normalMovePlate(-1,-1);
-            //}
-            //else if (attacking){
-            //    normalMovePlate(2,-2);
-             //   normalMovePlate(-2,-2);
-           // }
+            if (isAttacking(1,-1)){
+                    this.attakX = 1;
+                    this.attakY = -1;
+                    MovePlate(2,-2, true);
+                }
+                else{
+                    MovePlate(1,-1, false);
+                }
+                if (isAttacking(-1,-1)){
+                    this.attakX = -1;
+                    this.attakY = -1;
+                    MovePlate(-2,-2, true);
+                }
+                else{
+                    MovePlate(-1,-1, false);
+                }
         }
     
     }
 
 
-    private void normalMovePlate(int xIncrement, int yIncrement){ // unity chess
+    private void MovePlate(int xIncrement, int yIncrement, bool attak){ // unity chess
         Game sc = controller.GetComponent<Game>();
 
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
 
-        if (sc.GetPosition(x,y)==null && sc.isOnBoard(x,y)){
-            MoveDotsSpawn(x,y);
+        if (attak){
+            this.attakX = xBoard + attakX;
+            this.attakY = yBoard + attakY;
+        }
+
+        if (sc.isOnBoard(x,y)){
+            if (sc.GetPosition(x,y)==null){
+                MoveDotsSpawn(x,y, attak);
+            }
+        }
+        else{
+            Debug.Log("Dot cannot be generated");
         }
     }
 
-    private void attackingMovePlate(int xIncrement, int yIncrement){ // unity chess
-        Game sc = controller.GetComponent<Game>();
-
-        int x = xBoard + xIncrement;
-        int y = yBoard + yIncrement;
-
-        if (sc.GetPosition(x,y)==null && sc.isOnBoard(x,y)){
-            MoveDotsSpawn(x,y);
-        }
-    }
-
+/*
     private void plusMovePlate(string player){
 
     }
-
-    private void MoveDotsSpawn(int matrixX, int matrixY){ // Unity Chess
+*/
+    private void MoveDotsSpawn(int matrixX, int matrixY, bool attak){ // Unity Chess
     ///*
         //Get the board value in order to convert to xy coords
         float x = matrixX;
@@ -179,6 +203,11 @@ public class Piece : MonoBehaviour
         GameObject sq = Instantiate(moveDot, new Vector3(x, y, -1.0f), Quaternion.identity);
 
         MoveDot sqScript = sq.GetComponent<MoveDot>();
+        sqScript.attack = attak;
+        if(attak){
+            sqScript.setAttackedX(attakX);
+            sqScript.setAttackedY(attakY);
+        }
         sqScript.SetReference(gameObject);
         sqScript.SetCoords(matrixX, matrixY);
        // */

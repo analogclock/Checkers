@@ -57,15 +57,25 @@ public class Game : MonoBehaviour
         Piece p = obj.GetComponent<Piece>();
 
         //Overwrites either empty space or whatever was there
-        positions[p.GetXBoard(), p.GetYBoard()] = obj;
-        stringPositions[p.GetXBoard(), p.GetYBoard()] = p.name;
+        if (isOnBoard(p.GetXBoard(), p.GetYBoard())){
+            positions[p.GetXBoard(), p.GetYBoard()] = obj;
+            stringPositions[p.GetXBoard(), p.GetYBoard()] = p.name;
+        }
+        
     }
 
     public void SetPositionEmpty(int x, int y) // unity chess
     {
         positions[x, y] = null;
-        stringPositions[x,y] = "";
+        stringPositions[x,y] = null;
     }
+
+    public void DestroyPiece(GameObject obj){
+        Piece p = obj.GetComponent<Piece>();
+        Destroy(obj);
+    }
+
+    // Getter and Setter methods
 
     public GameObject GetPosition(int x, int y)
     {

@@ -14,14 +14,28 @@ public class MoveDot : MonoBehaviour
     int matrixX;
     int matrixY;
 
+    // coordinates of piece being attacked
+    int attackedX;
+    int attackedY;
+
     //false: movement, true: attacking
-    public bool attack = false;
+    public bool attack;
 
     private void OnMouseUp(){
         //string debugg = this.name + " clicked";
         Debug.Log("Dot Clicked");
 
         controller = GameObject.FindGameObjectWithTag("GameController");
+
+        //attack = controller.GetComponent<Piece>().attacking;
+
+        if (attack){
+            // destroy opponent poiece
+            GameObject cp = controller.GetComponent<Game>().GetPosition(attackedX, attackedY); // position after jumping
+            Destroy(cp);
+        }
+            
+        //}
 
         //Set the Chesspiece's original location to be empty
         controller.GetComponent<Game>().SetPositionEmpty(reference.GetComponent<Piece>().GetXBoard(), 
@@ -46,6 +60,14 @@ public class MoveDot : MonoBehaviour
     {
         matrixX = x;
         matrixY = y;
+    }
+
+    public void setAttackedX(int x){
+        this.attackedX = x;
+    }
+
+    public void setAttackedY(int y){
+        this.attackedY = y;
     }
 
     public void SetReference(GameObject obj)
