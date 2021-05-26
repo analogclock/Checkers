@@ -49,12 +49,12 @@ public class MoveDot : MonoBehaviour
             reference.GetComponent<Piece>().GetYBoard());
 
         // if piece has reached opponent's side, delete old piece & reference, and change to plus piece
-        if(this.player == "A" && this.matrixY == 7){//  || (this.player == "B" && this.matrixY == 0)
+        if(this.player == "A" && this.matrixY == 7){ // player A
             Destroy(GetReference());
             GameObject p = controller.GetComponent<Game>().Create("A_plus", this.matrixX, this.matrixY); // create plus piece where original piece was
             SetReference(p);
         }
-        else if(this.player == "B" && this.matrixY == 0){//  || (this.player == "B" && this.matrixY == 0)
+        else if(this.player == "B" && this.matrixY == 0){ // player B
             Destroy(GetReference());
             GameObject p = controller.GetComponent<Game>().Create("B_plus", this.matrixX, this.matrixY); // create plus piece where original piece was
             SetReference(p);
