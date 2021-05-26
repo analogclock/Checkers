@@ -152,7 +152,7 @@ public class Piece : MonoBehaviour
                     MovePlate(-2,-2, true);
                 }
                 else{
-                    MovePlate(-1,-1, false);
+                     MovePlate(-1,-1, false);
                 }
         }
     

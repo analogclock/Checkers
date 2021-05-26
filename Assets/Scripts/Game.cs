@@ -113,6 +113,7 @@ public class Game : MonoBehaviour
         if (this.piecesA == 0 || this.piecesB == 0){
             this.gameOver=true;
             print("Game Over!");
+            //SceneManager.UnloadSceneAsync();
             Application.Quit();
         }
     }
