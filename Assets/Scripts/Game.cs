@@ -14,7 +14,7 @@ public class Game : MonoBehaviour
     private GameObject[,] positions = new GameObject[8, 8];
     private GameObject[] playerA = new GameObject[8]; 
     private GameObject[] playerB = new GameObject[8];
-    private string[,] stringPositions = new string[8,8]; // redundant? but I'm desperate
+    private string[,] stringPositions = new string[8,8]; // this variable and it's implementaitons are all me
 
     private string currentPlayer = "A"; // current turn
 
@@ -24,8 +24,7 @@ public class Game : MonoBehaviour
     private int piecesA = 8;
     private int piecesB = 8;
 
-    // create pieces and set their positions. Idea and structure from Unity Chess Tutorial
-    void Start()
+    void Start() // create pieces and set their positions. Idea and structure from Unity Chess Tutorial
     {
         playerA = new GameObject[]{
         Create("A_normal", 0,0), Create("A_normal", 1,1), 
@@ -44,7 +43,7 @@ public class Game : MonoBehaviour
         }
     }
 
-    public GameObject Create(string name, int x, int y) // A lot from Unity Chess tutorial
+    public GameObject Create(string name, int x, int y) // from Unity Chess tutorial
     {
         GameObject obj = Instantiate(piece, new Vector3(0, 0, -1), Quaternion.identity);
         Piece p = obj.GetComponent<Piece>();
@@ -56,27 +55,54 @@ public class Game : MonoBehaviour
         return obj;
     }
 
-    public void SetPosition(GameObject obj) // unity chess
+    public void SetPosition(GameObject obj) // from unity chess
     {
         Piece p = obj.GetComponent<Piece>();
 
         //Overwrites either empty space or whatever was there
         if (isOnBoard(p.GetXBoard(), p.GetYBoard())){
             positions[p.GetXBoard(), p.GetYBoard()] = obj;
-            stringPositions[p.GetXBoard(), p.GetYBoard()] = p.name;
+            stringPositions[p.GetXBoard(), p.GetYBoard()] = p.name; // me
         }
         
     }
 
-    public void SetPositionEmpty(int x, int y) // unity chess
+    public void SetPositionEmpty(int x, int y) // from unity chess
     {
         positions[x, y] = null;
-        stringPositions[x,y] = null;
+        stringPositions[x,y] = null; // me
         
         
     }
+    // The following 4 methods are all my work 
+    public string getPieceAtXY(int x, int y){
+        return this.stringPositions[x,y];
+    }
 
-    // Getter and Setter methods
+    public void eitherPlayerLost(){
+        if (this.piecesA == 0 || this.piecesB == 0){
+            this.gameOver=true;
+            print("Game Over!");
+            //SceneManager.UnloadSceneAsync();
+            Application.Quit();
+        }
+    }
+
+    public void DecreasePiecesA(){
+        this.piecesA = this.piecesA - 1;
+        print("A: " + this.piecesA);
+        print("B: " + this.piecesB);
+        eitherPlayerLost();
+    }
+
+    public void DecreasePiecesB(){
+        this.piecesB = this.piecesB - 1;
+        print("A: " + this.piecesA);
+        print("B: " + this.piecesB);
+        eitherPlayerLost();
+    }
+
+    // Getter and Setter methods from Unity Chess Tutorial
 
     public GameObject GetPosition(int x, int y)
     {
@@ -105,30 +131,4 @@ public class Game : MonoBehaviour
         return xCoord && yCoord;
     }
 
-    public string getPieceAtXY(int x, int y){
-        return this.stringPositions[x,y];
-    }
-
-    public void eitherPlayerNull(){
-        if (this.piecesA == 0 || this.piecesB == 0){
-            this.gameOver=true;
-            print("Game Over!");
-            //SceneManager.UnloadSceneAsync();
-            Application.Quit();
-        }
-    }
-
-    public void DecreasePiecesA(){
-        this.piecesA = this.piecesA - 1;
-        print("A: " + this.piecesA);
-        print("B: " + this.piecesB);
-        eitherPlayerNull();
-    }
-
-    public void DecreasePiecesB(){
-        this.piecesB = this.piecesB - 1;
-        print("A: " + this.piecesA);
-        print("B: " + this.piecesB);
-        eitherPlayerNull();
-    }
 }

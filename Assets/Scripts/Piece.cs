@@ -29,13 +29,12 @@ public class Piece : MonoBehaviour
     private int attakX;
     private int attakY;
 
-    public void Activate(){
+    public void Activate(){ // logic from unity chess tutorial
 
         controller = GameObject.FindGameObjectWithTag("GameController"); // Get the game controller
 
-        SetCoords(); // Take the instantiated location and adjust transform
+        SetCoords();
 
-        // switch on sprite name
         switch(this.name){
             case "A_normal": this.GetComponent<SpriteRenderer>().sprite = A_normal; player = "A"; break;
             case "B_normal": this.GetComponent<SpriteRenderer>().sprite = B_normal; player = "B"; break;
@@ -44,7 +43,7 @@ public class Piece : MonoBehaviour
         }
     }
 
-    public void SetCoords() // correspond unity coordinates with in-game coordinates
+    public void SetCoords() // logic from unity chess tutorial. correspond unity coordinates with in-game coordinates
     {
         //Get the board value in order to convert to xy coords
         float x = xBoard;
@@ -62,16 +61,14 @@ public class Piece : MonoBehaviour
         this.transform.position = new Vector3(x, y, -1.0f);
     }
 
-    private void OnMouseUp(){
-        string debugg = this.name + " clicked";
-        Debug.Log(debugg);
+    private void OnMouseUp(){ // from unity chess tutorial
         if (controller.GetComponent<Game>().GetCurrentPlayer() == player){
             DestroyMoveDots();
             GenerateMoveDots();
         }
     }
 
-    public void GenerateMoveDots(){ // encodes rules of movemnt sort of
+    public void GenerateMoveDots(){ 
         switch(this.name){
             case "A_normal": Move("A"); break;
             case "B_normal": Move("B"); break;
@@ -80,7 +77,7 @@ public class Piece : MonoBehaviour
         }
     }
 
-    public void DestroyMoveDots(){ //Destroy old dots
+    public void DestroyMoveDots(){ // from unity chess tutorial
         GameObject[] moveDots = GameObject.FindGameObjectsWithTag("MoveDot");
         for (int i = 0; i < moveDots.Length; i++)
         {
@@ -110,8 +107,6 @@ public class Piece : MonoBehaviour
         this.attacking = false;
         return false;
     }
- 
-
 
     private void Move(string player){
 
@@ -230,7 +225,7 @@ public class Piece : MonoBehaviour
     }
 
 
-    private void MovePlate(int xIncrement, int yIncrement, bool attak){ // unity chess
+    private void MovePlate(int xIncrement, int yIncrement, bool attak){ // from unity chess tutorial except for attak boolean
         Game sc = controller.GetComponent<Game>();
 
         int x = xBoard + xIncrement;
@@ -251,7 +246,7 @@ public class Piece : MonoBehaviour
         }
     }
 
-    private void MoveDotsSpawn(int matrixX, int matrixY, bool attak){ // Unity Chess
+    private void MoveDotsSpawn(int matrixX, int matrixY, bool attak){ // from unity chess tutorial
 
         //Get the board value in order to convert to xy coords
         float x = matrixX;

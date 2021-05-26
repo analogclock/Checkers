@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MoveDot : MonoBehaviour
+public class MoveDot : MonoBehaviour 
 {
     //Some functions will need reference to the controller
     public GameObject controller;
@@ -24,15 +24,13 @@ public class MoveDot : MonoBehaviour
     private string player;
 
     private void OnMouseUp(){
-        //string debugg = this.name + " clicked";
+        /* basic logic about getting game, references, switcing player, etc. from Unity Chess Tutorial.
+        attacking logic and upgrade to Plus pieces logic done by me only */
         Debug.Log("Dot Clicked");
 
         controller = GameObject.FindGameObjectWithTag("GameController");
 
-        //attack = controller.GetComponent<Piece>().attacking;
-
-        if (attack){
-            // destroy opponent poiece
+        if (attack){ // destroy opponent poiece
             GameObject cp = controller.GetComponent<Game>().GetPosition(attackedX, attackedY); // position after jumping
             controller.GetComponent<Game>().SetPositionEmpty(attackedX, attackedY);
             Destroy(cp);
@@ -49,7 +47,7 @@ public class MoveDot : MonoBehaviour
             reference.GetComponent<Piece>().GetYBoard());
 
         // if piece has reached opponent's side, delete old piece & reference, and change to plus piece
-        if(this.player == "A" && this.matrixY == 7){ // player A
+        if (this.player == "A" && this.matrixY == 7){ // player A
             Destroy(GetReference());
             GameObject p = controller.GetComponent<Game>().Create("A_plus", this.matrixX, this.matrixY); // create plus piece where original piece was
             SetReference(p);
@@ -70,7 +68,6 @@ public class MoveDot : MonoBehaviour
         controller.GetComponent<Game>().SetPosition(reference);
 
         // switch player
-    
         controller.GetComponent<Game>().changeCurrentPlayer();
 
         // delete old dots
@@ -78,18 +75,21 @@ public class MoveDot : MonoBehaviour
 
     } // end of mouseup
 
-        public void SetCoords(int x, int y)
-    {
-        matrixX = x;
-        matrixY = y;
-    }
-
+    // SetAttacked methods by me only
     public void setAttackedX(int x){
         this.attackedX = x;
     }
 
     public void setAttackedY(int y){
         this.attackedY = y;
+    }
+
+    // The following methods come from Unity Chess Tutorial
+
+        public void SetCoords(int x, int y)
+    {
+        matrixX = x;
+        matrixY = y;
     }
 
     public void SetReference(GameObject obj)
