@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class Piece : MonoBehaviour
 {
-    //References to objects in our Unity Scene
+    // References to objects in our Unity Scene
     public GameObject controller;
     public GameObject moveDot;
-    // GameObject reference = null;
 
-    //Location on the board
+    // Location on the board
     int matrixX;
     int matrixY;
 
-    //Position for this piece on the Board
-    //The correct position will be set later
+    // Position for this piece on the Board
+    // The correct position will be set later
     private int xBoard = -1;
     private int yBoard = -1; 
 
@@ -22,10 +21,11 @@ public class Piece : MonoBehaviour
 
     private string player; // Variable for keeping track of the player it belongs to player A or player B
 
-    //References to all the possible Sprites that this Chesspiece could be
+    //References to all the possible Sprites that this piece could be
     public Sprite A_normal, A_plus;
     public Sprite B_normal, B_plus;
 
+    // Coordinates of piece being attacked
     private int attakX;
     private int attakY;
 
@@ -80,8 +80,7 @@ public class Piece : MonoBehaviour
         }
     }
 
-    public void DestroyMoveDots(){
-        //Destroy old dots
+    public void DestroyMoveDots(){ //Destroy old dots
         GameObject[] moveDots = GameObject.FindGameObjectsWithTag("MoveDot");
         for (int i = 0; i < moveDots.Length; i++)
         {
@@ -90,7 +89,6 @@ public class Piece : MonoBehaviour
     }
 
     private bool isAttacking(int xIncrement, int yIncrement){
-        ///*
         Game sc = controller.GetComponent<Game>();
         int x = xBoard + xIncrement;
         int y = yBoard + yIncrement;
@@ -111,14 +109,12 @@ public class Piece : MonoBehaviour
         }
         this.attacking = false;
         return false;
-
-          // */
     }
  
 
 
     private void Move(string player){
-        //bool attacking = isAttacking();
+
         if (this.player == "A"){
                 if (isAttacking(1,1)){ // right 1, up 1
                     this.attakX = 1;
@@ -156,10 +152,10 @@ public class Piece : MonoBehaviour
                 }
         }
     
-    } // end of Move
+    }
 
-    private void PlusMove(string player){
-        //bool attacking = isAttacking();
+    private void PlusMove(string player){ // Plus pieces can move and capture on all 4 diagonals
+
         if (this.player == "A"){
                 if (isAttacking(1,1)){ // right 1, up 1
                     this.attakX = 1;
@@ -255,13 +251,8 @@ public class Piece : MonoBehaviour
         }
     }
 
-/*
-    private void plusMovePlate(string player){
-
-    }
-*/
     private void MoveDotsSpawn(int matrixX, int matrixY, bool attak){ // Unity Chess
-    ///*
+
         //Get the board value in order to convert to xy coords
         float x = matrixX;
         float y = matrixY;
@@ -286,7 +277,7 @@ public class Piece : MonoBehaviour
         sqScript.SetCurrentPlayer(this.player);
         sqScript.SetReference(gameObject);
         sqScript.SetCoords(matrixX, matrixY);
-       // */
+        
     }
 
     // Getter and Setter methods from Unity Chess Tutorial
