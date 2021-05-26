@@ -20,6 +20,10 @@ public class Game : MonoBehaviour
 
     private bool gameOver = false; // Game Ending
 
+    // how many pieces does each player have
+    private int piecesA = 8;
+    private int piecesB = 8;
+
     // create pieces and set their positions. Idea and structure from Unity Chess Tutorial
     void Start()
     {
@@ -68,11 +72,8 @@ public class Game : MonoBehaviour
     {
         positions[x, y] = null;
         stringPositions[x,y] = null;
-    }
-
-    public void DestroyPiece(GameObject obj){
-        Piece p = obj.GetComponent<Piece>();
-        Destroy(obj);
+        
+        
     }
 
     // Getter and Setter methods
@@ -106,5 +107,27 @@ public class Game : MonoBehaviour
 
     public string getPieceAtXY(int x, int y){
         return this.stringPositions[x,y];
+    }
+
+    public void eitherPlayerNull(){
+        if (this.piecesA == 0 || this.piecesA == 0){
+            this.gameOver=true;
+        }
+        print("Game Over!");
+        //return this.gameOver;
+    }
+
+    public void DecreasePiecesA(){
+        this.piecesA = this.piecesA - 1;
+        print("A: " + this.piecesA);
+        print("B: " + this.piecesB);
+        eitherPlayerNull();
+    }
+
+    public void DecreasePiecesB(){
+        this.piecesB = this.piecesB - 1;
+        print("A: " + this.piecesA);
+        print("B: " + this.piecesB);
+        eitherPlayerNull();
     }
 }

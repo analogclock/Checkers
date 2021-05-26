@@ -208,6 +208,7 @@ public class Piece : MonoBehaviour
             sqScript.setAttackedX(attakX);
             sqScript.setAttackedY(attakY);
         }
+        sqScript.SetCurrentPlayer(this.player);
         sqScript.SetReference(gameObject);
         sqScript.SetCoords(matrixX, matrixY);
        // */

@@ -21,6 +21,8 @@ public class MoveDot : MonoBehaviour
     //false: movement, true: attacking
     public bool attack;
 
+    private string player;
+
     private void OnMouseUp(){
         //string debugg = this.name + " clicked";
         Debug.Log("Dot Clicked");
@@ -32,10 +34,15 @@ public class MoveDot : MonoBehaviour
         if (attack){
             // destroy opponent poiece
             GameObject cp = controller.GetComponent<Game>().GetPosition(attackedX, attackedY); // position after jumping
+            controller.GetComponent<Game>().SetPositionEmpty(attackedX, attackedY);
             Destroy(cp);
+            if (this.player == "A"){ // opponent has one fewer pieces
+                controller.GetComponent<Game>().DecreasePiecesB();
+            }
+            else {
+                controller.GetComponent<Game>().DecreasePiecesA();
+            }
         }
-            
-        //}
 
         //Set the Chesspiece's original location to be empty
         controller.GetComponent<Game>().SetPositionEmpty(reference.GetComponent<Piece>().GetXBoard(), 
@@ -50,11 +57,16 @@ public class MoveDot : MonoBehaviour
         controller.GetComponent<Game>().SetPosition(reference);
 
         // switch player
+    
         controller.GetComponent<Game>().changeCurrentPlayer();
 
         // delete old dots
         reference.GetComponent<Piece>().DestroyMoveDots();
-    }
+
+       // if (controller.GetComponent<Game>().eitherPlayerNull()){
+        //    Debug.Log("Game Over");
+        //}
+    } // end of mouseup
 
         public void SetCoords(int x, int y)
     {
@@ -78,5 +90,9 @@ public class MoveDot : MonoBehaviour
     public GameObject GetReference()
     {
         return reference;
+    }
+
+    public void SetCurrentPlayer(string p){
+        this.player = p;
     }
 }
