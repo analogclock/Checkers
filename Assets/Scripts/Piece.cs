@@ -73,8 +73,10 @@ public class Piece : MonoBehaviour
 
     public void GenerateMoveDots(){ // encodes rules of movemnt sort of
         switch(this.name){
-            case "A_normal": normalMoves("A"); break;
-            case "B_normal": normalMoves("B"); break;
+            case "A_normal": Move("A"); break;
+            case "B_normal": Move("B"); break;
+            case "A_plus": Move("A"); break;
+            case "B_plus": Move("B"); break;
         }
     }
 
@@ -94,20 +96,21 @@ public class Piece : MonoBehaviour
         int y = yBoard + yIncrement;
 
         if (sc.isOnBoard(x,y)){
-            //GameObject p = sc.GetPosition(x,y); // returns gameobject at that location?
             string s = sc.getPieceAtXY(x,y);
             Debug.Log(s);
 
-            if (s == null || s == this.name){ // no plus pieces. WATCH OUT 
+            if (s == null || 
+            (this.player == "A" && (s == "A_normal" || s == "A_plus"))||
+            (this.player == "B" && (s == "B_normal" || s == "B_plus"))){ 
                 Debug.Log("Is NOT Attacking");
                 return false;
             }
             Debug.Log("Is Attacking");
             //Attack(x,y);
-            attacking = true;
+            this.attacking = true;
             return true;
         }
-        attacking = false;
+        this.attacking = false;
         return false;
 
           // */
@@ -115,12 +118,10 @@ public class Piece : MonoBehaviour
  
 
 
-    private void normalMoves(string player){
+    private void Move(string player){
         //bool attacking = isAttacking();
         if (this.player == "A"){
-            //if (!attacking){
-                
-                if (isAttacking(1,1)){
+                if (isAttacking(1,1)){ // right 1, up 1
                     this.attakX = 1;
                     this.attakY = 1;
                     MovePlate(2,2, true);
@@ -128,7 +129,7 @@ public class Piece : MonoBehaviour
                 else{
                     MovePlate(1,1, false);
                 }
-                if (isAttacking(-1,1)){
+                if (isAttacking(-1,1)){  // left 1, up 1
                     this.attakX = -1;
                     this.attakY = 1;
                     MovePlate(-2,2, true);
@@ -136,9 +137,27 @@ public class Piece : MonoBehaviour
                 else{
                     MovePlate(-1,1, false);
                 }
+                if (this.name == "A_plus"){ // plus pieces can move in all 4 diagonals
+                    if (isAttacking(1,-1)){ // right 1, down 1
+                        this.attakX = 1;
+                        this.attakY = -1;
+                        MovePlate(2,-2, true);
+                    }
+                    else{
+                        MovePlate(1,-1, false);
+                    }
+                    if (isAttacking(-1,-1)){ // left 1, down 1
+                        this.attakX = -1;
+                        this.attakY = -1;
+                        MovePlate(-2,-2, true);
+                    }
+                    else{
+                        MovePlate(-1,-1, false);
+                    }
+                }
         }
         else if (this.player == "B"){
-            if (isAttacking(1,-1)){
+            if (isAttacking(1,-1)){ // right 1, down 1
                     this.attakX = 1;
                     this.attakY = -1;
                     MovePlate(2,-2, true);
@@ -146,7 +165,7 @@ public class Piece : MonoBehaviour
                 else{
                     MovePlate(1,-1, false);
                 }
-                if (isAttacking(-1,-1)){
+                if (isAttacking(-1,-1)){ // left 1, down 1
                     this.attakX = -1;
                     this.attakY = -1;
                     MovePlate(-2,-2, true);
@@ -154,6 +173,24 @@ public class Piece : MonoBehaviour
                 else{
                     MovePlate(-1,-1, false);
                 }
+            if (this.name == "B_plus"){  // plus pieces can move in all 4 diagonals
+                if (isAttacking(1,1)){ // right 1, up 1
+                    this.attakX = 1;
+                    this.attakY = 1;
+                    MovePlate(2,2, true);
+                }
+                else{
+                    MovePlate(1,1, false);
+                }
+                if (isAttacking(-1,1)){  // left 1, up 1
+                    this.attakX = -1;
+                    this.attakY = 1;
+                    MovePlate(-2,2, true);
+                }
+                else{
+                    MovePlate(-1,1, false);
+                }
+            }
         }
     
     }
@@ -212,6 +249,17 @@ public class Piece : MonoBehaviour
         sqScript.SetReference(gameObject);
         sqScript.SetCoords(matrixX, matrixY);
        // */
+    }
+
+    public void ToPlusPiece(){ // make piece into plus piece if it reached opponent's side
+        if (this.name == "A_normal"){
+            this.name = "A_plus";
+            this.GetComponent<SpriteRenderer>().sprite = A_plus;
+        }
+        else if (this.name == "B_normal"){
+            this.name = "B_plus";
+            this.GetComponent<SpriteRenderer>().sprite = B_plus;
+        }
     }
 
     // Getter and Setter methods from Unity Chess Tutorial

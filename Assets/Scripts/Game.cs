@@ -110,11 +110,11 @@ public class Game : MonoBehaviour
     }
 
     public void eitherPlayerNull(){
-        if (this.piecesA == 0 || this.piecesA == 0){
+        if (this.piecesA == 0 || this.piecesB == 0){
             this.gameOver=true;
+            print("Game Over!");
+            Application.Quit();
         }
-        print("Game Over!");
-        //return this.gameOver;
     }
 
     public void DecreasePiecesA(){

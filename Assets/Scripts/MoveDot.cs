@@ -7,7 +7,7 @@ public class MoveDot : MonoBehaviour
     //Some functions will need reference to the controller
     public GameObject controller;
 
-    //The Chesspiece that was tapped to create this MovePlate
+    //The piece that was tapped to create this MovePlate
     GameObject reference = null;
 
     //Location on the board
@@ -48,10 +48,23 @@ public class MoveDot : MonoBehaviour
         controller.GetComponent<Game>().SetPositionEmpty(reference.GetComponent<Piece>().GetXBoard(), 
             reference.GetComponent<Piece>().GetYBoard());
 
-        //Move reference chess piece to this position
-        reference.GetComponent<Piece>().SetXBoard(matrixX);
-        reference.GetComponent<Piece>().SetYBoard(matrixY);
-        reference.GetComponent<Piece>().SetCoords();
+        // if piece has reached opponent's side, delete old piece & reference, and change to plus piece
+        if(this.player == "A" && this.matrixY == 7){//  || (this.player == "B" && this.matrixY == 0)
+            Destroy(GetReference());
+            GameObject p = controller.GetComponent<Game>().Create("A_plus", this.matrixX, this.matrixY); // create plus piece where original piece was
+            SetReference(p);
+        }
+        else if(this.player == "B" && this.matrixY == 0){//  || (this.player == "B" && this.matrixY == 0)
+            Destroy(GetReference());
+            GameObject p = controller.GetComponent<Game>().Create("B_plus", this.matrixX, this.matrixY); // create plus piece where original piece was
+            SetReference(p);
+        }
+        else{
+            //Move reference chess piece to this position
+            reference.GetComponent<Piece>().SetXBoard(matrixX);
+            reference.GetComponent<Piece>().SetYBoard(matrixY);
+            reference.GetComponent<Piece>().SetCoords();
+        }
 
         //Update the matrix
         controller.GetComponent<Game>().SetPosition(reference);
@@ -63,9 +76,6 @@ public class MoveDot : MonoBehaviour
         // delete old dots
         reference.GetComponent<Piece>().DestroyMoveDots();
 
-       // if (controller.GetComponent<Game>().eitherPlayerNull()){
-        //    Debug.Log("Game Over");
-        //}
     } // end of mouseup
 
         public void SetCoords(int x, int y)
